@@ -1,0 +1,9 @@
+csvDBConfig: &csvDBConfig
+  code: csvdb
+  connectionString: "phone_numbers.csv"
+useCaseConfig:
+  listFirstActivationDates:
+    code: listFirstActivationDates
+    phoneRepoConfig: &phoneRepoConfig
+      code: phoneRepo
+      dataStoreConfig: *csvDBConfig
