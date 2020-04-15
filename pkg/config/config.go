@@ -8,8 +8,9 @@ import (
 )
 
 var (
-	ErrDataNotFound = errors.New("Data Not Found")
-	ErrDataInvalid  = errors.New("Data Invalid")
+	ErrDataNotFound      = errors.New("Data Not Found")
+	ErrDataInvalid       = errors.New("Data Invalid")
+	ErrInputFileNotFound = errors.New("Input File Not Found")
 )
 
 type AppConfig struct {

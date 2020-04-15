@@ -27,7 +27,7 @@ func newCSVReader(filepath string) (*csv.Reader, io.Closer, error) {
 	// Open CSV file
 	f, err := os.Open(filepath)
 	if err != nil {
-		return nil, nil, errors.Wrap(err, "repo.newCSVReader")
+		return nil, nil, config.ErrInputFileNotFound
 	}
 
 	// Read File into a Variable

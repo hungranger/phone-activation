@@ -29,7 +29,16 @@ func main() {
 		return
 	}
 
+	inputFile, outputFile := getArgs()
+	if inputFile != "" {
+		di.(*container.Container).AppConfig.UseCase.ListFirstActivationDates.PhoneRepoConfig.DataStoreConfig.ConnectionString = inputFile
+	}
+
 	listActDateUseCase, err := di.BuildUseCase(config.LIST_FIRST_ACTIVATION_DATES)
+	if errors.Cause(err) == config.ErrInputFileNotFound {
+		log.Printf("Input file '%s' Not Found. 'Err= %v'\n", inputFile, err.Error())
+		return
+	}
 	if err != nil {
 		log.Fatalf("%+v", err)
 		return
@@ -46,7 +55,7 @@ func main() {
 		return
 	}
 
-	writeToCSV("output.csv", firstActivationDates)
+	writeToCSV(outputFile, firstActivationDates)
 
 	PrintMemUsage()
 }
@@ -62,15 +71,15 @@ func loadConfig(filePath string) (container.IContainer, error) {
 	return &container, nil
 }
 
-// func getArgs() (inputPath string, outputPath string) {
-// 	if len(os.Args) > 1 {
-// 		inputPath = os.Args[1]
-// 	}
-// 	if len(os.Args) > 2 {
-// 		outputPath = os.Args[2]
-// 	}
-// 	return
-// }
+func getArgs() (inputPath string, outputPath string) {
+	if len(os.Args) > 1 {
+		inputPath = os.Args[1]
+	}
+	if len(os.Args) > 2 {
+		outputPath = os.Args[2]
+	}
+	return
+}
 
 func writeToCSV(filename string, records []model.Phone) {
 	if filename == "" {
